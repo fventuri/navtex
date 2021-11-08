@@ -50,7 +50,6 @@ int main(int argc, const char** argv)
         nv.process_data(procbuf, nb_samples);
     }
 
-    //nv.process_data(procbuf, 0);
     if (fd != fileno(stdin))
         close(fd);
 

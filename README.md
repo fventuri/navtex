@@ -25,11 +25,18 @@ cd build/src
 ./navtex_rx_from_file < ../../examples/navtex_mondolfo.res11k025
 ```
 
+To decode a NAVTEX file in .wav format, you can use 'sox' to convert it first, as follows:
+
+```
+sox <input file.wav> -b 16 -e signed -c 1 -r 11025 -t raw - | ./navtex_rx_from_file
+```
+
 
 ## Credits
 
 - Dave Freese, W1HKJ for creating fldigi
 - Rik van Riel, AB1KW for the NAVTEX decoder
+- Franco Spinelli, IW2DHW for the NAVTEX example from Mondolfo, Italy
 
 
 ## Copyright
