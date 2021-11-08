@@ -41,4 +41,4 @@ sox <input file.wav> -b 16 -e signed -c 1 -r 11025 -t raw - | ./navtex_rx_from_f
 
 ## Copyright
 
-(C) 2021 Franco Venturi - Licensed under the GNU GPL V3 (see &lt;LICENSE&gt;)
+(C) 2021 Franco Venturi - Licensed under the GNU GPL V3 (see [LICENSE](LICENSE))
