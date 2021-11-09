@@ -31,7 +31,11 @@ int main(int argc, const char** argv)
         }
     }
 
-    int sample_rate = 11025;
+    // disable buffering on stdout
+    setvbuf(stdout, nullptr, _IONBF, 0);
+
+    //int sample_rate = 11025;
+    int sample_rate = 48000;
     bool only_sitor_b = false;
     bool reverse = false;
     navtex_rx nv(sample_rate, only_sitor_b, reverse, stdout);
