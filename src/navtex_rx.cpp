@@ -353,7 +353,8 @@ void navtex_rx::display_message(ccir_message & ccir_msg, const std::string & alt
 void navtex_rx::put_received_message(const std::string & message)
 {
     LOG_INFO("%s", message.c_str());
-    fputs(message.c_str(), m_out);
+    //fputs(message.c_str(), m_out);
+    fputs(message.c_str(), stderr);
 }
 
 cmplx navtex_rx::mixer(double & phase, double f, cmplx in)
@@ -818,7 +819,7 @@ void navtex_rx::filter_print(int c) {
 }
 
 void navtex_rx::put_rx_char(int c) {
-    // fv - TODO
+    // actual character received
     putc(c, m_out);
 }
 

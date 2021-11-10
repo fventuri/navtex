@@ -5,7 +5,9 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-// decode a NAVTEX sound file (signled LE16 sampled at 11025Hz)
+// decode a NAVTEX sound file (signed LE16 sampled at 11025Hz)
+// NOTE: a different sample rate (for instance 48kHz) works too, as long
+// as the variable 'sample_rate' is set to the correct value (line 39 or 40)
 
 #include <cstdio>
 #include <cstring>
@@ -34,8 +36,8 @@ int main(int argc, const char** argv)
     // disable buffering on stdout
     setvbuf(stdout, nullptr, _IONBF, 0);
 
-    //int sample_rate = 11025;
-    int sample_rate = 48000;
+    int sample_rate = 11025;
+    //int sample_rate = 48000;
     bool only_sitor_b = false;
     bool reverse = false;
     navtex_rx nv(sample_rate, only_sitor_b, reverse, stdout);
