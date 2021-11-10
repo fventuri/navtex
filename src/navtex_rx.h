@@ -61,7 +61,8 @@ private:
 
 class navtex_rx {
 public:
-    navtex_rx(int sample_rate, bool only_sitor_b, bool reverse, FILE* out);
+    navtex_rx(int sample_rate, bool only_sitor_b, bool reverse,
+              FILE * out=stdout, FILE * err=stderr, FILE * log=stderr);
     void process_data(const double * data, int nb_samples);
 
 private:
@@ -69,6 +70,7 @@ private:
     bool m_only_sitor_b;
     bool m_reverse;
     FILE * m_out;
+    FILE * m_err;
 
     // filter method related
     double m_center_frequency_f;

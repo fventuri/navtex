@@ -5,7 +5,7 @@ A NAVTEX decoder library (and a simple application) based on fldigi (http://www.
 The source code for the original NAVTEX decoder by Rik van Riel can be found here: https://sourceforge.net/p/fldigi/fldigi/ci/master/tree/src/navtex/navtex.cxx
 
 
-## How to build
+## How to build and install
 
 ```
 git clone https://github.com/fventuri/navtex.git
@@ -14,6 +14,7 @@ mkdir build
 cd build
 cmake ..
 make
+sudo make install
 ```
 
 

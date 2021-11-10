@@ -198,17 +198,21 @@ enum LogLevel {
 };
 
 static const LogLevel log_level = WARN;
+static FILE * logfile = nullptr;
 
-#define LOG_DEBUG(...) if (log_level <= DEBUG) { fprintf(stderr, "[DEBUG] "); fprintf(stderr, __VA_ARGS__); fprintf(stderr, "\n"); }
-#define LOG_INFO(...) if (log_level <= INFO) { fprintf(stderr, "[INFO] "); fprintf(stderr, __VA_ARGS__); fprintf(stderr, "\n"); }
-#define LOG_WARN(...) if (log_level <= WARN) { fprintf(stderr, "[WARN] "); fprintf(stderr, __VA_ARGS__); fprintf(stderr, "\n"); }
+#define LOG_DEBUG(...) if (log_level <= DEBUG && logfile != nullptr) { fprintf(logfile, "[DEBUG] "); fprintf(logfile, __VA_ARGS__); fprintf(logfile, "\n"); }
+#define LOG_INFO(...) if (log_level <= INFO && logfile != nullptr) { fprintf(logfile, "[INFO] "); fprintf(logfile, __VA_ARGS__); fprintf(logfile, "\n"); }
+#define LOG_WARN(...) if (log_level <= WARN && logfile != nullptr) { fprintf(logfile, "[WARN] "); fprintf(logfile, __VA_ARGS__); fprintf(logfile, "\n"); }
 
 
-navtex_rx::navtex_rx(int sample_rate, bool only_sitor_b, bool reverse, FILE * out) {
+navtex_rx::navtex_rx(int sample_rate, bool only_sitor_b, bool reverse,
+                     FILE * out, FILE * err, FILE * log) {
     m_sample_rate = sample_rate;
     m_only_sitor_b = only_sitor_b;
     m_reverse = reverse;
     m_out = out;
+    m_err = err;
+    logfile = log;
 
     m_center_frequency_f = dflt_center_freq;
     // this value must never be zero and bigger than 10.
@@ -353,8 +357,7 @@ void navtex_rx::display_message(ccir_message & ccir_msg, const std::string & alt
 void navtex_rx::put_received_message(const std::string & message)
 {
     LOG_INFO("%s", message.c_str());
-    //fputs(message.c_str(), m_out);
-    fputs(message.c_str(), stderr);
+    fputs(message.c_str(), m_err);
 }
 
 cmplx navtex_rx::mixer(double & phase, double f, cmplx in)
