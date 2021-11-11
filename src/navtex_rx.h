@@ -67,6 +67,7 @@ public:
     navtex_rx(int sample_rate, bool only_sitor_b, bool reverse,
               FILE * out=stdout, FILE * err=stderr, FILE * log=stderr);
     void process_data(const float * data, int nb_samples);
+    void process_data(const short * data, int nb_samples);
 
 private:
     int m_sample_rate;

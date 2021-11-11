@@ -289,6 +289,30 @@ void navtex_rx::process_data(const float * data, int nb_samples) {
     }
 }
 
+void navtex_rx::process_data(const short * data, int nb_samples) {
+
+    cmplx z, zmark, zspace, *zp_mark, *zp_space;
+
+    process_timeout();
+
+    for (int i = 0; i < nb_samples; i++) {
+        int n_out;
+
+        m_time_sec = m_sample_count / m_sample_rate ;
+
+        z = cmplx(data[i], data[i]);
+
+        zmark = mixer(m_mark_phase, m_mark_f, z);
+        m_mark_lowpass->run(zmark, &zp_mark);
+
+        zspace = mixer(m_space_phase, m_space_f, z);
+        n_out = m_space_lowpass->run(zspace, &zp_space);
+
+        if (n_out)
+            process_fft_output(zp_mark, zp_space, n_out);
+    }
+}
+
 
 // private functions
 void navtex_rx::set_filter_values() {
