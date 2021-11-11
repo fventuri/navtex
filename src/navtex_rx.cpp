@@ -832,23 +832,23 @@ void navtex_rx::process_messages(int c) {
     m_curr_msg.push_back((char) c);
 
     /// No header nor trailer for plain SitorB.
-    if ( m_only_sitor_b ) {
+    if (m_only_sitor_b) {
         m_header_found = true;
         m_message_time = m_time_sec;
         return;
     }
 
     ccir_message::detect_result msg_cut = m_curr_msg.detect_header();
-    if ( msg_cut.first ) {
+    if (msg_cut.first) {
         /// Maybe the message was already valid.
-        if( m_header_found )
+        if (m_header_found)
         {
             display_message( msg_cut.second, msg_cut.second + ":[Lost trailer]" );
         }
         else
         {
             /// Maybe only non-significant chars.
-            if( ! msg_cut.second.empty() )
+            if (!msg_cut.second.empty())
             {
                 display_message( msg_cut.second, "[Lost header]:" + msg_cut.second + ":[Lost trailer]" );
             }
@@ -857,7 +857,7 @@ void navtex_rx::process_messages(int c) {
         m_message_time = m_time_sec;
 
     } else { // valid message state
-        if ( m_curr_msg.detect_end() ) {
+        if (m_curr_msg.detect_end()) {
             flush_message("");
         }
     }
