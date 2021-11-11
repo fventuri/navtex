@@ -8,10 +8,10 @@
 #ifndef _NAVTEX_RX_H
 #define _NAVTEX_RX_H
 
-#include "fftfilt.h"
+#include <complex>
 #include <cstdio>
+#include <string>
 #include <vector>
-
 
 class ccir_message : public std::string {
 public:
@@ -59,11 +59,14 @@ private:
 }; // CCIR476
 
 
+class fftfilt;
+typedef std::complex<double> cmplx;
+
 class navtex_rx {
 public:
     navtex_rx(int sample_rate, bool only_sitor_b, bool reverse,
               FILE * out=stdout, FILE * err=stderr, FILE * log=stderr);
-    void process_data(const double * data, int nb_samples);
+    void process_data(const float * data, int nb_samples);
 
 private:
     int m_sample_rate;

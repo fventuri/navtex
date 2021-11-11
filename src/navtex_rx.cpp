@@ -181,6 +181,7 @@
 // the alternatives tested does.
 // ---------------------------------------------------------------------
 
+#include "fftfilt.h"
 #include "misc.h"
 #include "navtex_rx.h"
 #include <climits>
@@ -263,7 +264,7 @@ navtex_rx::navtex_rx(int sample_rate, bool only_sitor_b, bool reverse,
     configure_filters();
 }
 
-void navtex_rx::process_data(const double * data, int nb_samples) {
+void navtex_rx::process_data(const float * data, int nb_samples) {
 
     cmplx z, zmark, zspace, *zp_mark, *zp_space;
 

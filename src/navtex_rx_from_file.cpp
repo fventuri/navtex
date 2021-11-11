@@ -20,7 +20,7 @@ constexpr int BUFSIZE = 8192;
 int main(int argc, const char** argv)
 {
     auto inbuf = new short[BUFSIZE];
-    auto procbuf = new double[BUFSIZE];
+    auto procbuf = new float[BUFSIZE];
 
     int fd;
     if (argc == 1 || strcmp(argv[1], "-") == 0) {
