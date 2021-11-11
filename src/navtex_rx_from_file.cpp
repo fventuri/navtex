@@ -20,7 +20,6 @@ constexpr int BUFSIZE = 8192;
 int main(int argc, const char** argv)
 {
     auto inbuf = new short[BUFSIZE];
-    auto procbuf = new float[BUFSIZE];
 
     int fd;
     if (argc == 1 || strcmp(argv[1], "-") == 0) {
@@ -51,9 +50,7 @@ int main(int argc, const char** argv)
         if (nread == 0)
             break;
         int nb_samples = nread / sizeof(short);
-        for (size_t i = 0; i < nb_samples; i++)
-             procbuf[i] = inbuf[i] / 32767.0;
-        nv.process_data(procbuf, nb_samples);
+        nv.process_data(inbuf, nb_samples);
     }
     fflush(stdout);
 
