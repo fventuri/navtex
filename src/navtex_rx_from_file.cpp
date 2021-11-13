@@ -39,7 +39,7 @@ int main(int argc, const char** argv)
     int sample_rate = 48000;
     bool only_sitor_b = false;
     bool reverse = false;
-    navtex_rx nv(sample_rate, only_sitor_b, reverse, stdout, nullptr);
+    navtex_rx nv(sample_rate, only_sitor_b, reverse, stdout);
 
     while (true) {
         auto nread = read(fd, inbuf, BUFSIZE * sizeof(short));

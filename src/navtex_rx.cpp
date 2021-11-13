@@ -199,21 +199,21 @@ enum LogLevel {
 };
 
 static const LogLevel log_level = WARN;
-static FILE * logfile = nullptr;
+static FILE * s_logfile = nullptr;
 
-#define LOG_DEBUG(...) if (log_level <= DEBUG && logfile != nullptr) { fprintf(logfile, "[DEBUG] "); fprintf(logfile, __VA_ARGS__); fprintf(logfile, "\n"); }
-#define LOG_INFO(...) if (log_level <= INFO && logfile != nullptr) { fprintf(logfile, "[INFO] "); fprintf(logfile, __VA_ARGS__); fprintf(logfile, "\n"); }
-#define LOG_WARN(...) if (log_level <= WARN && logfile != nullptr) { fprintf(logfile, "[WARN] "); fprintf(logfile, __VA_ARGS__); fprintf(logfile, "\n"); }
+#define LOG_DEBUG(...) if (log_level <= DEBUG && s_logfile != nullptr) { fprintf(s_logfile, "[DEBUG] "); fprintf(s_logfile, __VA_ARGS__); fprintf(s_logfile, "\n"); }
+#define LOG_INFO(...) if (log_level <= INFO && s_logfile != nullptr) { fprintf(s_logfile, "[INFO] "); fprintf(s_logfile, __VA_ARGS__); fprintf(s_logfile, "\n"); }
+#define LOG_WARN(...) if (log_level <= WARN && s_logfile != nullptr) { fprintf(s_logfile, "[WARN] "); fprintf(s_logfile, __VA_ARGS__); fprintf(s_logfile, "\n"); }
 
 
 navtex_rx::navtex_rx(int sample_rate, bool only_sitor_b, bool reverse,
-                     FILE * out, FILE * err, FILE * log) {
+                     FILE * rawfile, FILE * messagesfile, FILE * logfile) {
     m_sample_rate = sample_rate;
     m_only_sitor_b = only_sitor_b;
     m_reverse = reverse;
-    m_out = out;
-    m_err = err;
-    logfile = log;
+    m_rawfile = rawfile;
+    m_messagesfile = messagesfile;
+    s_logfile = logfile;
 
     m_center_frequency_f = dflt_center_freq;
     // this value must never be zero and bigger than 10.
@@ -382,8 +382,8 @@ void navtex_rx::display_message(ccir_message & ccir_msg, const std::string & alt
 void navtex_rx::put_received_message(const std::string & message)
 {
     LOG_INFO("%s", message.c_str());
-    if (m_err != nullptr)
-        fputs(message.c_str(), m_err);
+    if (m_messagesfile != nullptr)
+        fputs(message.c_str(), m_messagesfile);
 }
 
 cmplx navtex_rx::mixer(double & phase, double f, cmplx in)
@@ -849,8 +849,8 @@ void navtex_rx::filter_print(int c) {
 
 void navtex_rx::put_rx_char(int c) {
     // actual character received
-    if (m_out != nullptr)
-        putc(c, m_out);
+    if (m_rawfile != nullptr)
+        putc(c, m_rawfile);
 }
 
 void navtex_rx::process_messages(int c) {
