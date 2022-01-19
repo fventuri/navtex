@@ -22,14 +22,25 @@ sudo make install
 
 ```
 cd build/src
-./navtex_rx_from_file < ../../examples/navtex_example.res11k025
-./navtex_rx_from_file < ../../examples/navtex_mondolfo.res11k025
+./navtex_rx_from_file 11025 < ../../examples/navtex_example.res11k025
+./navtex_rx_from_file 11025 < ../../examples/navtex_mondolfo.res11k025
+```
+
+To decode a NAVTEX file sampled at 48kHz:
+```
+./navtex_rx_from_file 48000 < navtex_filename.48k
 ```
 
 To decode a NAVTEX file in .wav format, you can use 'sox' to convert it first, as follows:
 
 ```
-sox <input file.wav> -b 16 -e signed -c 1 -r 11025 -t raw - | ./navtex_rx_from_file
+sox <input file.wav> -b 16 -e signed -c 1 -r 11025 -t raw - | ./navtex_rx_from_file 11025
+```
+
+Same as above but using a sample rate of 48kHz instead:
+
+```
+sox <input file.wav> -b 16 -e signed -c 1 -r 48000 -t raw - | ./navtex_rx_from_file 48000
 ```
 
 

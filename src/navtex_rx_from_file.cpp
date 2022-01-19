@@ -6,8 +6,8 @@
  */
 
 // decode a NAVTEX sound file (signed LE16 sampled at 11025Hz)
-// NOTE: a different sample rate (for instance 48kHz) works too, as long
-// as the variable 'sample_rate' is set to the correct value (line 39 or 40)
+// NOTE: a different sample rate (for instance 48kHz) works too
+//       (see examples in the README file)
 
 #include <cstdio>
 #include <cstring>
@@ -21,13 +21,21 @@ int main(int argc, const char** argv)
 {
     auto inbuf = new short[BUFSIZE];
 
+    int sample_rate = 11025;
+    if (argc >= 2) {
+        if (sscanf(argv[1], "%d", &sample_rate) != 1) {
+            fprintf(stderr, "invalid sample rate: %s\n", argv[1]);
+            exit(EXIT_FAILURE);
+        }
+    }
+    
     int fd;
-    if (argc == 1 || strcmp(argv[1], "-") == 0) {
+    if (argc == 2 || strcmp(argv[2], "-") == 0) {
         fd = fileno(stdin);
     } else {
-        fd = open(argv[1], O_RDONLY);
+        fd = open(argv[2], O_RDONLY);
         if (fd == -1) {
-            fprintf(stderr, "open(%s) failed: %s\n", argv[1], strerror(errno));
+            fprintf(stderr, "open(%s) failed: %s\n", argv[2], strerror(errno));
             exit(EXIT_FAILURE);
         }
     }
@@ -35,8 +43,6 @@ int main(int argc, const char** argv)
     // disable buffering on stdout
     setvbuf(stdout, nullptr, _IONBF, 0);
 
-    //int sample_rate = 11025;
-    int sample_rate = 48000;
     bool only_sitor_b = false;
     bool reverse = false;
     navtex_rx nv(sample_rate, only_sitor_b, reverse, stdout);
