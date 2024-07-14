@@ -33,7 +33,11 @@ int main(int argc, const char** argv)
     if (argc == 2 || strcmp(argv[2], "-") == 0) {
         fd = fileno(stdin);
     } else {
-        fd = open(argv[2], O_RDONLY);
+        int flags = O_RDONLY;
+#ifdef O_BINARY
+        flags |= O_BINARY;
+#endif
+        fd = open(argv[2], flags);
         if (fd == -1) {
             fprintf(stderr, "open(%s) failed: %s\n", argv[2], strerror(errno));
             exit(EXIT_FAILURE);
